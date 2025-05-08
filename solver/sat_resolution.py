@@ -2,6 +2,7 @@ import os
 from itertools import combinations
 from concurrent.futures import ProcessPoolExecutor, TimeoutError
 from sat_reader import read_dimacs_cnf
+import multiprocessing
 
 def process_all_files(directory_path, timeout=10):
     for filename in os.listdir(directory_path):
@@ -13,12 +14,15 @@ def process_all_files(directory_path, timeout=10):
                 num_vars, num_clauses, raw_clauses = read_dimacs_cnf(file_path)
                 clauses = {frozenset(clause) for clause in raw_clauses}
 
-                with ProcessPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(resolution_algorithm, clauses)
+                # Spawn a separate process (not just a thread pool)
+                with multiprocessing.get_context("spawn").Pool(1) as pool:
+                    async_result = pool.apply_async(resolution_algorithm, (clauses,))
                     try:
-                        is_sat = future.result(timeout=timeout)
+                        is_sat = async_result.get(timeout=timeout)
                         print(f"{filename}: {'SAT' if is_sat else 'UNSAT'}")
-                    except TimeoutError:
+                    except multiprocessing.TimeoutError:
+                        pool.terminate()  # Force-stop the process
+                        pool.join()
                         print(f"{filename}: Timeout (> {timeout}s) — Skipping")
 
             except Exception as e:
@@ -51,5 +55,6 @@ def resolution_algorithm(clauses):
         clauses |= new_resolvents
 
 if __name__ == "__main__":
-    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
+    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\uf20-91'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
     process_all_files(directory_path, timeout=10)

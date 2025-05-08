@@ -1,20 +1,32 @@
 from sat_reader import read_dimacs_cnf
 import os
+import multiprocessing
+from collections import defaultdict
+from itertools import combinations
 
-
-def process_all_files(directory_path):
+def process_all_files(directory_path, timeout=10):
     for filename in os.listdir(directory_path):
         if filename.endswith(".cnf"):
             file_path = os.path.join(directory_path, filename)
-            print(f"\nProcessing file: {filename}")
+            print(f"Processing file: {filename}")
             
-            num_vars, num_clauses, clauses = read_dimacs_cnf(file_path)
-            is_sat = dpll(clauses)
+            try:
+                num_vars, num_clauses, raw_clauses = read_dimacs_cnf(file_path)
+                clauses = {frozenset(clause) for clause in raw_clauses}
 
-            if is_sat:
-                print(f"{filename}: SAT")
-            else:
-                print(f"{filename}: UNSAT")
+                # Spawn a separate process (not just a thread pool)
+                with multiprocessing.get_context("spawn").Pool(1) as pool:
+                    async_result = pool.apply_async(dpll, (clauses,))
+                    try:
+                        is_sat = async_result.get(timeout=timeout)
+                        print(f"{filename}: {'SAT' if is_sat else 'UNSAT'}")
+                    except multiprocessing.TimeoutError:
+                        pool.terminate()  # Force-stop the process
+                        pool.join()
+                        print(f"{filename}: Timeout (> {timeout}s) — Skipping")
+
+            except Exception as e:
+                print(f"{filename}: Error — {e}")
 
 
 def unit_propagate(clauses, assignment):
@@ -112,5 +124,6 @@ def dpll(clauses, assignment=None):
 
 
 if __name__ == "__main__":
-    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
+    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
     process_all_files(directory_path)

@@ -3,22 +3,33 @@ import functools
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor, TimeoutError
 from sat_reader import read_dimacs_cnf  # make sure this is working
+import multiprocessing
 
 print = functools.partial(print, flush=True)  # always flush output
 
-def process_all_files(directory_path):
+def process_all_files(directory_path, timeout=60):
     for filename in os.listdir(directory_path):
-        if not filename.endswith(".cnf"):
-            continue
-        file_path = os.path.join(directory_path, filename)
-        with ProcessPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(process_file, file_path)
+        if filename.endswith(".cnf"):
+            file_path = os.path.join(directory_path, filename)
+            print(f"Processing file: {filename}")
+            
             try:
-                is_sat = future.result(timeout=10)
-                print(f"{filename}: {'SAT' if is_sat else 'UNSAT'}")
-            except TimeoutError:
-                print(f"{filename}: ⏱️ Timeout (>10s) — Skipping")
-        print("➡️ Moving on to the next file...")
+                num_vars, num_clauses, raw_clauses = read_dimacs_cnf(file_path)
+                clauses = {frozenset(clause) for clause in raw_clauses}
+
+                # Spawn a separate process (not just a thread pool)
+                with multiprocessing.get_context("spawn").Pool(1) as pool:
+                    async_result = pool.apply_async(dp_algorithm, (clauses,))
+                    try:
+                        is_sat = async_result.get(timeout=timeout)
+                        print(f"{filename}: {'SAT' if is_sat else 'UNSAT'}")
+                    except multiprocessing.TimeoutError:
+                        pool.terminate()  # Force-stop the process
+                        pool.join()
+                        print(f"{filename}: Timeout (> {timeout}s) — Skipping")
+
+            except Exception as e:
+                print(f"{filename}: Error — {e}")
 
 
 
@@ -129,7 +140,8 @@ def process_file(file_path):
 
 
 if __name__ == "__main__":
-    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/uf20-91'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/uf20-91'
+    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
     process_all_files(directory_path)
 
 #python3 '/Users/andrewmiroiu/Desktop/SAT solver/solver/sat_dp.py'
