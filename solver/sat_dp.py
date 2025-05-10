@@ -33,7 +33,7 @@ def process_all_files(directory_path, timeout=60):
 
 
 
-def unit_clause_elimination(clauses, assignment, debug=True):
+def unit_clause_elimination(clauses, assignment, debug=False):
     changed = True
     while changed:
         changed = False
@@ -63,7 +63,7 @@ def unit_clause_elimination(clauses, assignment, debug=True):
     return clauses, assignment
 
 
-def pure_literal_elimination(clauses, assignment, debug=True):
+def pure_literal_elimination(clauses, assignment, debug=False):
     counts = defaultdict(int)
     for clause in clauses:
         for lit in clause:
@@ -80,7 +80,7 @@ def pure_literal_elimination(clauses, assignment, debug=True):
     return new_clauses, assignment
 
 
-def resolve_clauses(clauses, variable, debug=True):
+def resolve_clauses(clauses, variable, debug=False):
     if debug:
         print(f"  🔀 Resolving on variable: {variable}")
     pos_clauses = [c for c in clauses if variable in c]
@@ -99,7 +99,7 @@ def resolve_clauses(clauses, variable, debug=True):
     return remaining
 
 
-def dp_algorithm(clauses, assignment=None, debug=True):
+def dp_algorithm(clauses, assignment=None, debug=False):
     if assignment is None:
         assignment = set()
     step = 0
@@ -140,8 +140,9 @@ def process_file(file_path):
 
 
 if __name__ == "__main__":
-    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/uf20-91'
-    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
+    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/UUF50.218.1000'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/UF75.325.100'
+    #directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
     process_all_files(directory_path)
 
 #python3 '/Users/andrewmiroiu/Desktop/SAT solver/solver/sat_dp.py'

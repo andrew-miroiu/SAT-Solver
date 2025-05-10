@@ -1,0 +1,43 @@
+{
+  "9": {
+    "files_processed": 100,
+    "timeouts": 0,
+    "avg_time": 0.13564863204956054
+  },
+  "8": {
+    "files_processed": 100,
+    "timeouts": 0,
+    "avg_time": 0.08365204334259033
+  },
+  "5": {
+    "files_processed": 100,
+    "timeouts": 0,
+    "avg_time": 0.07798805236816406
+  },
+  "10": {
+    "files_processed": 100,
+    "timeouts": 1,
+    "avg_time": 0.09067898326449925
+  },
+  "6": {
+    "files_processed": 100,
+    "timeouts": 0,
+    "avg_time": 0.07701568603515625
+  },
+  "7": {
+    "files_processed": 100,
+    "timeouts": 0,
+    "avg_time": 0.10280609130859375
+  },
+  "25": {
+    "files_processed": 100,
+    "timeouts": 100,
+    "avg_time": 0.0
+  },
+  "50": {
+    "files_processed": 100,
+    "timeouts": 100,
+    "avg_time": 0.0
+  }
+
+}

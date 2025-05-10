@@ -124,6 +124,7 @@ def dpll(clauses, assignment=None):
 
 
 if __name__ == "__main__":
-    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
-    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
+    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/cnf_50vars_medium_hardest'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/test'
+    #directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
     process_all_files(directory_path)

@@ -91,7 +91,7 @@ def benchmark_all_folders(base_path, timeout=20, max_files_per_folder=20):
 
 if __name__ == "__main__":
     # Adjust these parameters as needed
-    base_path = r'C:\Users\andre\SAT-Solver\cnfs'
+    base_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/realtest'
     timeout_seconds = 10
     max_files_per_folder = 10  # e.g., set to 20 to limit per-folder files
 
