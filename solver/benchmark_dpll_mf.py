@@ -4,7 +4,7 @@ import multiprocessing
 import json
 import re
 from sat_reader import read_dimacs_cnf
-from sat_dpll import dpll
+from sat_dpll_most_freq import dpll
 
 def run_dpll_with_timeout(clauses, timeout=10):
     """Runs DPLL on clauses with a timeout in seconds."""
@@ -85,7 +85,7 @@ def benchmark_all_folders(base_path, timeout=20, max_files_per_folder=20):
         else:
             print(f"⚠️ Could not parse variable count from '{folder}'")
 
-    with open("benchmark_all_results.json", "w") as f:
+    with open("benchmark_mf.json", "w") as f:
         json.dump(results, f, indent=2)
     print("\n✅ All benchmark results saved to benchmark_all_results.json")
 

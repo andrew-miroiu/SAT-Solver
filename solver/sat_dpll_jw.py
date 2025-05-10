@@ -129,5 +129,5 @@ def dpll_jw(clauses, assignment=None):
 
 if __name__ == "__main__":
     #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/UUF50.218.1000'
-    directory_path = 'C:\\Users\\andre\\SAT-Solver\\UF250.1065.100'
+    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\50-250\\uf100-430'
     process_all_files(directory_path)

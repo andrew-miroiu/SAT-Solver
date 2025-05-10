@@ -2,41 +2,41 @@
   "100": {
     "files_processed": 100,
     "timeouts": 0,
-    "avg_time": 4.264248847961426
+    "avg_time": 0.1754673957824707
   },
   "125": {
     "files_processed": 100,
     "timeouts": 0,
-    "avg_time": 14.474172687530517
+    "avg_time": 0.7594256401062012
   },
   "150": {
     "files_processed": 100,
-    "timeouts": 42,
-    "avg_time": 34.351204911867775
+    "timeouts": 0,
+    "avg_time": 3.9191219091415403
   },
   "175": {
     "files_processed": 100,
-    "timeouts": 94,
-    "avg_time": 42.446436882019043
+    "timeouts": 0,
+    "avg_time": 14.827393412590027
   },
   "200": {
     "files_processed": 100,
-    "timeouts": 98,
-    "avg_time": 51.145774841308594
+    "timeouts": 65,
+    "avg_time": 15.58502757549286
   },
   "250": {
     "files_processed": 100,
-    "timeouts": 100,
-    "avg_time": 60.0
+    "timeouts": 79,
+    "avg_time": 10.960530042648315
   },
   "75": {
     "files_processed": 100,
     "timeouts": 0,
-    "avg_time": 0.25099637508392336
+    "avg_time": 0.12245793342590332
   },
   "50": {
     "files_processed": 100,
     "timeouts": 0,
-    "avg_time": 0.15734655857086183
+    "avg_time": 0.10673284530639648
   }
 }

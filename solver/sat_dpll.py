@@ -4,7 +4,7 @@ import multiprocessing
 from collections import defaultdict
 from itertools import combinations
 
-def process_all_files(directory_path, timeout=10):
+def process_all_files(directory_path, timeout=60):
     for filename in os.listdir(directory_path):
         if filename.endswith(".cnf"):
             file_path = os.path.join(directory_path, filename)
@@ -124,7 +124,7 @@ def dpll(clauses, assignment=None):
 
 
 if __name__ == "__main__":
-    directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/cnf_50vars_medium_hardest'
+    #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/cnf_50vars_medium_hardest'
     #directory_path = '/Users/andrewmiroiu/Desktop/SAT solver/cnfs/test'
-    #directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\test'
+    directory_path = 'C:\\Users\\andre\\SAT-Solver\\cnfs\\50-250\\uf100-430'
     process_all_files(directory_path)
